@@ -18,7 +18,7 @@ typedef struct {
 void encode();
 void decode();
 void toLowerCase(char* str);
-void printCharValues(CharValue* charValues, int size);
+//void printCharValues(CharValue* charValues, int size);
 char *read_string();
 void write_string(char *encoded_string);
 
@@ -41,7 +41,7 @@ int main(){
     printf(" Please select d for decode or e for encode: e \n");
     scanf(" %c", &user_selection);
 
-    printf("User selection is: %c \n", user_selection); 
+    //printf("User selection is: %c \n", user_selection); 
 
     user_selection_lower = tolower(user_selection);
 
@@ -68,7 +68,7 @@ int main(){
 void encode(CharValue* charValues, int size){
     char *file_string_buffer = read_string(INPUT_FILE);
     toLowerCase(file_string_buffer);
-    
+
     char encoded_string[MAX_LENGTH];
     char encode_temp[10];
     int encode_value;
@@ -106,16 +106,13 @@ void decode(CharValue* charValues, int size){
         encode_pair[1] = encoded_string[i + 1];
         encode_pair[2] = '\0';
         decoded_temp = atoi(encode_pair);
-        printf("TESTING - DECODED_PAIR: %d \n", decoded_temp);
 
         for (int j=0; j < size; j++){
             if(charValues[j].value == decoded_temp){
                 char temp_char[2];
                 temp_char[0] = charValues[j].character;
                 temp_char[1] = '\0';
-                printf("TESTING - TEMP_CHAR: %s \n", temp_char);
                 strcat(decoded_string, temp_char);
-                printf("TESTING - DECODED_STRING: %s \n", decoded_string);
             }
         }
     }
@@ -128,11 +125,11 @@ void toLowerCase(char* str) {
     }
 }
 
-void printCharValues(CharValue* charValues, int size) {
-    for (int i = 0; i < size; i++) {
-        printf("Character: %c, Value: %d\n", charValues[i].character, charValues[i].value);
-    }
-}
+// void printCharValues(CharValue* charValues, int size) {
+//     for (int i = 0; i < size; i++) {
+//         printf("Character: %c, Value: %d\n", charValues[i].character, charValues[i].value);
+//     }
+// }
 
 char *read_string(char *file_name){
     FILE *file;
@@ -152,7 +149,7 @@ char *read_string(char *file_name){
 
     fclose(file);
 
-    printf("text from file: %s \n", file_string_buffer);
+    printf("STRING FROM FILE: %s \n", file_string_buffer);
 
     return file_string_buffer;
 } 
