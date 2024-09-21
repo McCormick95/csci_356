@@ -67,6 +67,8 @@ int main(){
 
 void encode(CharValue* charValues, int size){
     char *file_string_buffer = read_string(INPUT_FILE);
+    toLowerCase(file_string_buffer);
+    
     char encoded_string[MAX_LENGTH];
     char encode_temp[10];
     int encode_value;
