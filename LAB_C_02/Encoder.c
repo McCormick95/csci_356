@@ -17,6 +17,8 @@ void encode();
 void decode();
 void toLowerCase(char* str);
 void printCharValues(CharValue* charValues, int size);
+char *read_string();
+void write_string(char *encoded_string);
 
 int main(){
 
@@ -67,25 +69,9 @@ int main(){
 }
 
 void encode(CharValue* charValues, int size){
-    FILE *file;
-    static char file_string_buffer[MAX_LENGTH];
 
-    file = fopen("unencoded.txt", "r");
-    if(file == NULL){
-        perror("ERROR WHILE OPENING FILE");
-        exit(0);
-    }
+    char *file_string_buffer = read_string();
     
-    if(fgets(file_string_buffer, MAX_LENGTH, file) == NULL) {
-        perror("ERROR WHILE READING FILE");
-        fclose(file);
-        exit(0);
-    }
-
-    fclose(file);
-
-    printf("text from file: %s \n", file_string_buffer);
-
     //toLowerCase(buffer);
     //printf("test sent after lower: %s \n", buffer);
     //int str_length = buffer.Length;
@@ -105,21 +91,7 @@ void encode(CharValue* charValues, int size){
         }
     }
 
-    FILE *file_out = fopen("encoded_out.txt", "w");
-
-    if(file_out == NULL){
-        perror("ERROR: WHILE OPENING FILE");
-        exit(0);
-    }
-
-    if(fputs(encoded_string, file_out) == EOF){
-        perror("ERROR: WHILE OPENING FILE");
-        fclose(file);
-        exit(0);
-    }
-
-    fclose(file_out);
-    
+    write_string(encoded_string);    
 }
 
 void decode(CharValue* charValues, int size){
@@ -136,4 +108,46 @@ void printCharValues(CharValue* charValues, int size) {
     for (int i = 0; i < size; i++) {
         printf("Character: %c, Value: %d\n", charValues[i].character, charValues[i].value);
     }
+}
+
+char *read_string(){
+    FILE *file;
+    static char file_string_buffer[MAX_LENGTH];
+
+    file = fopen("unencoded.txt", "r");
+    if(file == NULL){
+        perror("ERROR WHILE OPENING FILE");
+        exit(0);
+    }
+    
+    if(fgets(file_string_buffer, MAX_LENGTH, file) == NULL) {
+        perror("ERROR WHILE READING FILE");
+        fclose(file);
+        exit(0);
+    }
+
+    fclose(file);
+
+    printf("text from file: %s \n", file_string_buffer);
+
+    return file_string_buffer;
+} 
+
+void write_string(char *encoded_string){
+    FILE *file_out = fopen("encoded_out.txt", "w");
+
+    if(file_out == NULL){
+        perror("ERROR: WHILE OPENING FILE");
+        exit(0);
+    }
+
+    if(fputs(encoded_string, file_out) == EOF){
+        perror("ERROR: WHILE OPENING FILE");
+        fclose(file_out);
+        exit(0);
+    }
+
+    printf("STRING WRITTEN TO FILE: %s\n", encoded_string);
+
+    fclose(file_out);
 }
