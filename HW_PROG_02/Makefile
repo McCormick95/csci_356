@@ -1,5 +1,5 @@
 CC = gcc
-CFLAGS = -Wall -Wextra -std=c99
+CFLAGS = -g -Wall -Wextra -std=c99
 DEPS = my_queue.h credit_rating.h
 OBJ = my_queue.o credit_rating.o
 
