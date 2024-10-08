@@ -1,3 +1,12 @@
+// ################################## //
+// ASSIGNMENT: LAB_C_02               //
+// AUTHOR:     Ryan McCormick         //
+// USERNAME:   rlmccormi              //
+// EMAIL:      rlmccormi@coastal.edu  //
+// VERSION:    1.0                    //
+// DATE:       09/23/2024             //
+// ################################## //
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdio.h>
@@ -10,6 +19,7 @@
 #define OUTPUT_FILE "encoded_out.txt"
 #define INPUT_FILE "unencoded.txt"
 
+// define struc for character-value relationship 
 typedef struct {
     char character;
     int value;
@@ -26,6 +36,7 @@ int main(){
     char user_selection;
     char user_selection_lower;
 
+    //struct for characters-values
     CharValue charValues[] = {
         {'a',10}, {'b',11}, {'c',12}, {'d',13}, {'e',14},
         {'f',15}, {'g',16}, {'h',17}, {'i',18}, {'j',19}, 
@@ -37,6 +48,7 @@ int main(){
 
     int arraySize = sizeof(charValues) / sizeof(charValues[0]);
 
+    //print statments to command line for user
     printf("Welcome to the Encoder / Decoder program! \n");
     printf(" Please select d for decode or e for encode: e \n");
     scanf(" %c", &user_selection);
@@ -52,6 +64,7 @@ int main(){
     int choice_e = strcmp(selection_str, "e");
     int choice_d = strcmp(selection_str, "d");
 
+    // process user input and throw error if necessary
     if(choice_e == 0){
         encode(charValues, arraySize);
     }
@@ -65,6 +78,7 @@ int main(){
     return 0;
 }
 
+// function to encode string
 void encode(CharValue* charValues, int size){
     char *file_string_buffer = read_string(INPUT_FILE);
     toLowerCase(file_string_buffer);
@@ -86,6 +100,7 @@ void encode(CharValue* charValues, int size){
     write_string(encoded_string);    
 }
 
+// function to decode string
 void decode(CharValue* charValues, int size){
     char decoded_string[MAX_LENGTH];
     decoded_string[0] = '\0';
@@ -119,18 +134,14 @@ void decode(CharValue* charValues, int size){
     printf("DECODED STRING: %s \n", decoded_string);
 }
 
+// function to convert string to lower case
 void toLowerCase(char* str) {
     for (int i = 0; str[i] != '\0'; i++) {
         str[i] = tolower(str[i]);
     }
 }
 
-// void printCharValues(CharValue* charValues, int size) {
-//     for (int i = 0; i < size; i++) {
-//         printf("Character: %c, Value: %d\n", charValues[i].character, charValues[i].value);
-//     }
-// }
-
+// function sto read string from file
 char *read_string(char *file_name){
     FILE *file;
     static char file_string_buffer[MAX_LENGTH];
@@ -154,6 +165,7 @@ char *read_string(char *file_name){
     return file_string_buffer;
 } 
 
+// function to print string to file
 void write_string(char *encoded_string){
     FILE *file_out = fopen(OUTPUT_FILE, "w");
 
