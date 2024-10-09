@@ -1,49 +1,47 @@
 #include "my_queue.h"
 #include <stdlib.h>
 
-Queue* createQueue() {
-    Queue* q = (Queue*)malloc(sizeof(Queue));
-    q->front = q->rear = NULL;
-    q->size = 0;
+queue newqueue() {
+    queue q = (queue)malloc(sizeof(struct queueS));
+    q->front = NULL;
     return q;
 }
 
-void enqueue(Queue* q, void* data) {
-    Node* newNode = (Node*)malloc(sizeof(Node));
-    newNode->data = data;
-    newNode->next = NULL;
-
-    if (isEmpty(q)) {
-        q->front = q->rear = newNode;
-    } else {
-        q->rear->next = newNode;
-        q->rear = newNode;
-    }
-    q->size++;
-}
-
-void* dequeue(Queue* q) {
-    if (isEmpty(q)) return NULL;
-
-    Node* temp = q->front;
-    void* data = temp->data;
-
-    q->front = q->front->next;
-    if (q->front == NULL) q->rear = NULL;
-
-    free(temp);
-    q->size--;
-    return data;
-}
-
-int isEmpty(Queue* q) {
+int isempty(const queue q) {
     return q->front == NULL;
 }
 
-void destroyQueue(Queue* q) {
-    while (!isEmpty(q)) {
-        void* data = dequeue(q);
-        free(data);
+void enqueue(queue q, void* item) {
+    q_element* newElement = (q_element*)malloc(sizeof(q_element));
+    newElement->contents = item;
+    newElement->next = NULL;
+
+    if (isempty(q)) {
+        q->front = newElement;
+    } else {
+        q_element* current = q->front;
+        while (current->next != NULL) {
+            current = current->next;
+        }
+        current->next = newElement;
     }
-    free(q);
+}
+
+void* dequeue(queue q) {
+    if (isempty(q)) {
+        return NULL;
+    }
+
+    q_element* frontElement = q->front;
+    void* item = frontElement->contents;
+    q->front = frontElement->next;
+    free(frontElement);
+    return item;
+}
+
+void* peek(queue q) {
+    if (isempty(q)) {
+        return NULL;
+    }
+    return q->front->contents;
 }

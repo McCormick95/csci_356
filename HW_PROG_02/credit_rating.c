@@ -4,7 +4,7 @@
 #include "my_queue.h"
 #include "credit_rating.h"
 
-void processInput(Queue* q, int* maxRating) {
+void processInput(queue q, int* maxRating) {
     char input[100];
     *maxRating = 0;
 
@@ -28,13 +28,13 @@ void processInput(Queue* q, int* maxRating) {
     }
 }
 
-void displayResults(Queue* q, int maxRating) {
+void displayResults(queue q, int maxRating) {
     int totalRating = 0;
     int count = 0;
 
     printf("\nName\tRating\tDistance\n");
 
-    while (!isEmpty(q)) {
+    while (!isempty(q)) {
         Person* person = (Person*)dequeue(q);
         int distance = maxRating - person->creditRating;
         printf("%s\t%d\t%d\n", person->name, person->creditRating, distance);
@@ -53,12 +53,12 @@ void displayResults(Queue* q, int maxRating) {
 }
 
 int main() {
-    Queue* q = createQueue();
+    queue q = newqueue();
     int maxRating = 0;
 
     processInput(q, &maxRating);
     displayResults(q, maxRating);
 
-    destroyQueue(q);
+    free(q);
     return 0;
 }
