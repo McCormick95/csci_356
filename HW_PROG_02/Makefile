@@ -1,15 +1,19 @@
-CC = gcc
-CFLAGS = -g -Wall -Wextra -std=c99
-DEPS = my_queue.h credit_rating.h
-OBJ = my_queue.o credit_rating.o
+CFLAGS=-g -Wall
+PROGS=credit_rating
+OBJECTS=credit_rating.o my_queue.o
+LDFLAGS=
+CC=gcc
 
-%.o: %.c $(DEPS)
-	$(CC) -c -o $@ $< $(CFLAGS)
+all: $(PROGS)
 
-credit_rating: $(OBJ)
-	$(CC) -o $@ $^ $(CFLAGS)
+credit_rating: $(OBJECTS)
+	$(CC) -o credit_rating $(OBJECTS) $(LDFLAGS)
 
-# .PHONY: clean
+credit_rating.o: credit_rating.c credit_rating.h my_queue.h
+	$(CC) $(CFLAGS) -c credit_rating.c
+
+my_queue.o: my_queue.c my_queue.h
+	$(CC) $(CFLAGS) -c my_queue.c
 
 clean:
-	rm -f *.o credit_rating
+	rm -f $(PROGS) *.o core*
