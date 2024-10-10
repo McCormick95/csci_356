@@ -4,6 +4,12 @@
 #include "my_queue.h"
 #include "credit_rating.h"
 
+
+/**
+ * @brief Processes user input and enqueues Person objects into the queue
+ * @param q Pointer to the queue to store Person objects
+ * @param maxRating Pointer to store the maximum credit rating encountered
+ */
 void processInput(queue q, int* maxRating) {
     char input[100];
     *maxRating = 0;
@@ -28,6 +34,12 @@ void processInput(queue q, int* maxRating) {
     }
 }
 
+
+/**
+ * @brief Displays the results of the credit rating analysis
+ * @param q Pointer to the queue containing Person objects
+ * @param maxRating The maximum credit rating encountered
+ */
 void displayResults(queue q, int maxRating) {
     int totalRating = 0;
     int count = 0;
@@ -52,6 +64,11 @@ void displayResults(queue q, int maxRating) {
     }
 }
 
+
+/**
+ * @brief Main function to run the credit rating program
+ * @return 0 on successful execution
+ */
 int main() {
     queue q = newqueue();
     int maxRating = 0;
