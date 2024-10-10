@@ -1,3 +1,15 @@
+/**
+ * @file my_queue.c
+ * @brief manages the queue of information 
+ * from credit_rating.c
+ *
+ * @author Ryan McCormick
+ * @email rlmccormi@coastal.edu
+ * @date 10-09-2024
+ * @version 1.0
+ *
+ */
+
 #include "my_queue.h"
 #include <stdlib.h>
 

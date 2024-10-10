@@ -1,3 +1,14 @@
+/**
+ * @file credit_rating.h
+ * @brief header file for credit_rating.c 
+ *
+ * @author Ryan McCormick
+ * @email rlmccormi@coastal.edu
+ * @date 10-09-2024
+ * @version 1.0
+ *
+ */
+
 #ifndef CREDIT_RATING_H
 #define CREDIT_RATING_H
 

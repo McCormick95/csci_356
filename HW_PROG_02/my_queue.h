@@ -1,3 +1,14 @@
+/*
+ * my_queue.h - prototype functions for a queue
+ *
+ * Author: clintf
+ * Student Name:
+ *
+ * Course: CSCI 356
+ * Version 1.0
+ */
+
+
 #ifndef MY_QUEUE_H_
 #define MY_QUEUE_H_
 
