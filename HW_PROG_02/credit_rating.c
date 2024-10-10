@@ -1,9 +1,21 @@
+/**
+ * @file credit_rating.c
+ * @brief Takes user input of names and credit ratings
+ * returns distance from max and an overall average rating. 
+ *
+ * @author Ryan McCormick
+ * @email rlmccormi@coastal.edu
+ * @date 10-09-2024
+ * @version 1.0
+ *
+ */
+
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include "my_queue.h"
 #include "credit_rating.h"
-
 
 /**
  * @brief Processes user input and enqueues Person objects into the queue
