@@ -3,7 +3,8 @@
  * @brief Creates two processes that can play the card 
  * game of war against each other for a given number of rounds
  *  
- * @note timing data was to test effeciency vs James Burke
+ * @note timing data was to test effeciency vs James Burke, 
+ * mine was 3x faster
  *
  * @author Ryan McCormick
  * @email rlmccormi@coastal.edu
