@@ -3,6 +3,7 @@
  * @brief Creates two processes that can play the card 
  * game of war against each other for a given number of rounds
  *  
+ * @note timing data was to test effeciency vs James Burke
  *
  * @author Ryan McCormick
  * @email rlmccormi@coastal.edu
@@ -39,6 +40,11 @@ int main(int argc, char *argv[]){
         return 1;
     } 
 
+    // struct timespec start, end;
+    // double elapsed_time = 0.0;
+    // // Start the timer
+    // clock_gettime(CLOCK_MONOTONIC, &start);
+
     // initilize pipes and pids 
     int pipe_1p[2], pipe_1c[2], pipe_2p[2], pipe_2c[2];
     pid_t pid_1, pid_2;
@@ -67,6 +73,7 @@ int main(int argc, char *argv[]){
 
     printf("Beginning %d Rounds!\n", game_count);
     printf("-------------------------------------\n");
+
     // calls play_war and gives it the processes that will play
     play_war(pipe_1p[0], pipe_1c[1], pipe_2p[0], pipe_2c[1], game_count);
     
@@ -75,6 +82,13 @@ int main(int argc, char *argv[]){
     close(pipe_1c[1]);
     close(pipe_2p[0]); 
     close(pipe_2c[1]);
+
+    // End the timer
+    // clock_gettime(CLOCK_MONOTONIC, &end);
+    // elapsed_time = (end.tv_sec - start.tv_sec) + (end.tv_nsec - start.tv_nsec) / 1000000000.0;
+
+    // printf("time: %f \n", elapsed_time);
+
     return 0;
 }
 
