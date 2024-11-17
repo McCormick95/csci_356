@@ -1,3 +1,17 @@
+/**
+ * @file war_networked.c
+ * @brief Creates two processes that can play the card 
+ * game of war against each other for a given number of rounds
+ *  
+ *
+ * @author Ryan McCormick
+ * @email rlmccormi@coastal.edu
+ * 
+ * @date 11-17-2024
+ * @version 1.0
+ *
+ */
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -7,11 +21,17 @@
 #include <sys/un.h>
 #include <sys/socket.h>
 
+/**
+* @brief Struct for card with value and suit
+*/
 typedef struct {
     int value;  
     int suit;  
 } Card;
 
+/**
+* @brief Struct for players
+*/
 typedef struct {
     int player_id;
     int socket_pair[2];  
@@ -23,6 +43,12 @@ Card draw_card();
 const char* get_card_name(int value);
 const char* get_suit_name(int suit);
 
+/**
+* @brief main for the program - takes user input and starts game
+* @param argc - count for argv[]  
+* @param argv[] - arguments array for program
+* @return 0
+*/
 int main(int argc, char* argv[]) {
     if (argc != 2) {
         printf("Usage: %s <number_of_rounds>\n", argv[0]);
@@ -37,6 +63,7 @@ int main(int argc, char* argv[]) {
 
     srand(time(NULL));
 
+    // initilizes threads 
     pthread_t threads[2];
     ThreadData thread_data[2];
 
@@ -57,6 +84,7 @@ int main(int argc, char* argv[]) {
         printf("Child %d TID: %lu\n", i + 1, threads[i]);
     }
 
+    // starts game
     printf("Beginning %d Rounds...\n", rounds);
     printf("Fight!\n");
     printf("---------------------------\n");
@@ -108,7 +136,7 @@ int main(int argc, char* argv[]) {
         break;
 
     } while (1);
-
+    // ends game
     char quit_signal = 0;
     for (int i = 0; i < 2; i++) {
         write(thread_data[i].socket_pair[0], &quit_signal, 1);
@@ -117,6 +145,7 @@ int main(int argc, char* argv[]) {
         pthread_join(threads[i], NULL);
     }
 
+    // returns results
     printf("Results:\n");
     printf("Child 1: %d\n", thread_data[0].wins);
     printf("Child 2: %d\n", thread_data[1].wins);
@@ -125,6 +154,11 @@ int main(int argc, char* argv[]) {
     return 0;
 }
 
+/**
+* @brief player_thread()  
+* @param argv[] - arguments array passed fom main
+* @return NULL
+*/
 void* player_thread(void* arg) {
     ThreadData* data = (ThreadData*)arg;
     char signal;
@@ -143,6 +177,10 @@ void* player_thread(void* arg) {
     return NULL;
 }
 
+/**
+* @brief draws a card when called using a random number
+* @return card
+*/
 Card draw_card() {
     Card card;
     card.value = (rand() % 13) + 2;  
@@ -150,12 +188,22 @@ Card draw_card() {
     return card;
 }
 
+/**
+* @brief get_card_name() - returns the value of a card as a string when given a value
+* @param value - integer value for a card from a random number generator
+* @return names - string for the card value
+*/
 const char* get_card_name(int value) {
     static const char *names[] = {"2", "3", "4", "5", "6", "7", "8", "9", "10",
                                 "Jack", "Queen", "King", "Ace"};
     return names[value - 2];
 }
 
+/**
+* @brief get_suit_name() - returns the suit of a card as a string when given a value
+* @param suit - integer value for a card from a random number generator
+* @return suit - string for the card suite
+*/
 const char* get_suit_name(int suit) {
     static const char *suits[] = {"Spades", "Hearts", "Diamonds", "Clubs"};
     return suits[suit];
