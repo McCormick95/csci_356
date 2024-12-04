@@ -1,11 +1,48 @@
+// scheduler.c
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include "scheduler.h"
 
+void sort_by_priority(queue q) {
+    if (isempty(q)) return;
+    
+    q_element *current = q->front;
+    q_element *index = NULL;
+    Process *temp;
+    
+    while (current != NULL) {
+        index = current->next;
+        while (index != NULL) {
+            Process *curr_proc = (Process*)current->contents;
+            Process *idx_proc = (Process*)index->contents;
+            if (curr_proc->priority < idx_proc->priority) {
+                temp = current->contents;
+                current->contents = index->contents;
+                index->contents = temp;
+            }
+            index = index->next;
+        }
+        current = current->next;
+    }
+}
+
+void age_processes(queue q) {
+    q_element *current = q->front;
+    while (current != NULL) {
+        Process *proc = (Process*)current->contents;
+        proc->age++;
+        if (proc->age >= 8) {
+            proc->priority++;
+            proc->age = 0;
+        }
+        current = current->next;
+    }
+}
+
 void init_scheduler(Scheduler *s, char *algorithm) {
     s->process_count = 0;
-    s->ready_queue = create_queue();
+    s->ready_queue = newqueue();
     s->current_process = NULL;
     s->current_time = 0;
     strcpy(s->algorithm, algorithm);
@@ -39,13 +76,19 @@ void run_scheduler(Scheduler *s) {
     while (!all_complete) {
         handle_process_arrival(s, s->current_time);
         
-        if (strcmp(s->algorithm, "PP") == 0 && s->current_time % 8 == 0) {
+        if (strcmp(s->algorithm, "PP") == 0 && s->current_time > 0 && s->current_time % 8 == 0) {
+            q_element *current = s->ready_queue->front;
+            while (current != NULL) {
+                Process *proc = (Process*)current->contents;
+                printf("%d %d aging\n", s->current_time, proc->pid);
+                current = current->next;
+            }
             age_processes(s->ready_queue);
             sort_by_priority(s->ready_queue);
         }
         
         if (s->current_process == NULL) {
-            s->current_process = dequeue(s->ready_queue);
+            s->current_process = (Process*)dequeue(s->ready_queue);
             if (s->current_process != NULL) {
                 if (s->current_process->first_run == 0) {
                     s->current_process->start_time = s->current_time;
@@ -56,11 +99,18 @@ void run_scheduler(Scheduler *s) {
         } else {
             s->current_process->remaining_time--;
             printf("%d %d running\n", s->current_time, s->current_process->pid);
+            
+            // Update waiting time for processes in ready queue
+            q_element *current = s->ready_queue->front;
+            while (current != NULL) {
+                Process *proc = (Process*)current->contents;
+                proc->waiting_time++;
+                current = current->next;
+            }
         }
         
         handle_process_completion(s);
         
-        // Check if all processes are complete
         all_complete = 1;
         for (int i = 0; i < s->process_count; i++) {
             if (s->processes[i].remaining_time > 0) {
@@ -80,7 +130,7 @@ void print_statistics(Scheduler *s) {
     
     for (int i = 0; i < s->process_count; i++) {
         Process *p = &s->processes[i];
-        total_waiting_time += p->completion_time - p->arrival_time - p->cpu_time;
+        total_waiting_time += p->waiting_time;
         total_response_time += p->start_time - p->arrival_time;
         total_turnaround_time += p->completion_time - p->arrival_time;
     }

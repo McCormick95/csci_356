@@ -1,24 +1,65 @@
-#ifndef MY_QUEUE_H
-#define MY_QUEUE_H
+/*
+ * my_queue.h - prototype functions for a queue
+ *
+ * Author: clintf
+ * Student Name:
+ *
+ * Course: CSCI 356
+ * Version 1.0
+ */
 
-#include "process.h"
 
-typedef struct QueueNode {
-    Process *process;
-    struct QueueNode *next;
-} QueueNode;
+#ifndef MY_QUEUE_H_
+#define MY_QUEUE_H_
 
-typedef struct {
-    QueueNode *front;
-    QueueNode *rear;
-    int size;
-} Queue;
+struct q_elementS {
+    void* contents;             // the queue item
+    struct q_elementS* next;    // pointer to the next item in queue
+};
 
-Queue* create_queue();
-void enqueue(Queue *q, Process *p);
-Process* dequeue(Queue *q);
-int is_empty(Queue *q);
-void sort_by_priority(Queue *q);
-void age_processes(Queue *q);
+typedef struct q_elementS q_element;
 
-#endif
+struct queueS {
+    q_element* front;
+};
+
+typedef struct queueS* queue;   // a queue is a pointer
+
+/*
+ * creates a queue
+ * returns: a pointer to a queue
+ */
+queue newqueue();
+
+/*
+ * checks the status of a queue
+ * queue q: a queue to check for emptiness; q must not be NULL
+ * returns: value is > 0 iff queue has no elements
+ */
+int isempty (const queue q);
+
+/*
+ * adds item to end of queue
+ * queue q:     a queue to append; q must not be NULL
+ * void* item:  a pointer to an item to be enqueued onto queue
+ * returns:     item appended to queue
+ */
+void enqueue (queue q, void* item);
+
+/*
+ * dequeues first item from queue
+ * queue q: a queue to remove an item: q must not be NULL
+ * returns: item returned was front of queue and next element
+ *          is new head of queue
+ */
+void* dequeue (queue q);
+
+/*
+ * allows fo first item from queue to be examined
+ * queue q: a queue to check: q must not be NULL
+ * returns: item returned is current front of queue and
+ *          queue is left unaltered
+ */
+void* peek (queue q);
+
+#endif /* MY_QUEUE_H_ */

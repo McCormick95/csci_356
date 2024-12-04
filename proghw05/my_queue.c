@@ -1,76 +1,87 @@
-#include <stdlib.h>
-#include "my_queue.h"
+/**
+ * @file my_queue.c
+ * @brief manages the queue of information 
+ * from credit_rating.c
+ *
+ * @author Ryan McCormick
+ * @email rlmccormi@coastal.edu
+ * @date 10-09-2024
+ * @version 1.0
+ *
+ */
 
-Queue* create_queue() {
-    Queue *q = (Queue*)malloc(sizeof(Queue));
-    q->front = q->rear = NULL;
-    q->size = 0;
+#include "my_queue.h"
+#include <stdlib.h>
+
+/**
+ * @brief Creates a new empty queue
+ * @return A pointer to the newly created queue
+ */
+queue newqueue() {
+    queue q = (queue)malloc(sizeof(struct queueS));
+    q->front = NULL;
     return q;
 }
 
-void enqueue(Queue *q, Process *p) {
-    QueueNode *new_node = (QueueNode*)malloc(sizeof(QueueNode));
-    new_node->process = p;
-    new_node->next = NULL;
-    
-    if (is_empty(q)) {
-        q->front = q->rear = new_node;
-    } else {
-        q->rear->next = new_node;
-        q->rear = new_node;
-    }
-    q->size++;
-}
 
-Process* dequeue(Queue *q) {
-    if (is_empty(q)) return NULL;
-    
-    QueueNode *temp = q->front;
-    Process *p = temp->process;
-    q->front = q->front->next;
-    
-    if (q->front == NULL) {
-        q->rear = NULL;
-    }
-    
-    free(temp);
-    q->size--;
-    return p;
-}
-
-int is_empty(Queue *q) {
+/**
+ * @brief Checks if the queue is empty
+ * @param q Pointer to the queue to check
+ * @return 1 if the queue is empty, 0 otherwise
+ */
+int isempty(const queue q) {
     return q->front == NULL;
 }
 
-void sort_by_priority(Queue *q) {
-    if (is_empty(q) || q->size == 1) return;
-    
-    QueueNode *current = q->front;
-    QueueNode *index = NULL;
-    Process *temp;
-    
-    while (current != NULL) {
-        index = current->next;
-        while (index != NULL) {
-            if (current->process->priority < index->process->priority) {
-                temp = current->process;
-                current->process = index->process;
-                index->process = temp;
-            }
-            index = index->next;
+
+/**
+ * @brief Adds an item to the end of the queue
+ * @param q Pointer to the queue
+ * @param item Pointer to the item to be added
+ */
+void enqueue(queue q, void* item) {
+    q_element* newElement = (q_element*)malloc(sizeof(q_element));
+    newElement->contents = item;
+    newElement->next = NULL;
+
+    if (isempty(q)) {
+        q->front = newElement;
+    } else {
+        q_element* current = q->front;
+        while (current->next != NULL) {
+            current = current->next;
         }
-        current = current->next;
+        current->next = newElement;
     }
 }
 
-void age_processes(Queue *q) {
-    QueueNode *current = q->front;
-    while (current != NULL) {
-        current->process->age++;
-        if (current->process->age >= 8) {
-            current->process->priority++;
-            current->process->age = 0;
-        }
-        current = current->next;
+
+/**
+ * @brief Removes and returns the first item from the queue
+ * @param q Pointer to the queue
+ * @return Pointer to the dequeued item, or NULL if the queue is empty
+ */
+void* dequeue(queue q) {
+    if (isempty(q)) {
+        return NULL;
     }
+
+    q_element* frontElement = q->front;
+    void* item = frontElement->contents;
+    q->front = frontElement->next;
+    free(frontElement);
+    return item;
+}
+
+
+/**
+ * @brief Returns the first item from the queue without removing it
+ * @param q Pointer to the queue
+ * @return Pointer to the first item, or NULL if the queue is empty
+ */
+void* peek(queue q) {
+    if (isempty(q)) {
+        return NULL;
+    }
+    return q->front->contents;
 }

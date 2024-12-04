@@ -1,0 +1,55 @@
+Simulation starting...
+0 1 arriving
+0 2 arriving
+0 1 running
+1 1 running
+2 1 running
+3 3 arriving
+3 1 running
+4 1 running
+5 1 running
+6 1 running
+7 4 arriving
+7 1 running
+8 4 aging
+8 3 aging
+8 2 aging
+8 1 running
+9 1 running
+10 1 running
+11 1 running
+12 1 running
+12 1 finished
+13 4 running
+14 4 running
+15 4 running
+16 3 aging
+16 2 aging
+16 4 running
+17 4 running
+17 4 finished
+18 3 running
+19 3 running
+20 3 running
+21 3 running
+22 3 running
+23 3 running
+24 2 aging
+24 3 running
+24 3 finished
+25 2 running
+26 2 running
+27 2 running
+28 2 running
+29 2 running
+30 2 running
+31 2 running
+32 2 running
+33 2 running
+34 2 running
+34 2 finished
+
+Average waiting time: 32556.50
+Average response time: 11.50
+Average turnaround time: 19.25
+Average CPU usage: 100.00%
