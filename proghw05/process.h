@@ -1,3 +1,14 @@
+/**
+ * @file process.h
+ * @brief header file for process scruct
+ *
+ * @author Ryan McCormick
+ * @email rlmccormi@coastal.edu
+ * @date 12-04-2024
+ * @version 1.0
+ *
+ */
+
 #ifndef PROCESS_H
 #define PROCESS_H
 

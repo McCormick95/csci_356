@@ -1,3 +1,14 @@
+/**
+ * @file scheduler.h
+ * @brief header file for scheduler
+ *
+ * @author Ryan McCormick
+ * @email rlmccormi@coastal.edu
+ * @date 12-04-2024
+ * @version 1.0
+ *
+ */
+
 #ifndef SCHEDULER_H
 #define SCHEDULER_H
 
@@ -21,6 +32,6 @@ void handle_process_arrival(Scheduler *s, int time);
 void handle_process_completion(Scheduler *s);
 void print_statistics(Scheduler *s);
 void sort_by_priority(queue q);
-void age_processes(queue q);
+void age_processes(queue q, int current_time);  // Updated signature
 
 #endif

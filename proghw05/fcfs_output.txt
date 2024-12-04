@@ -1,15 +1,13 @@
 Simulation starting...
 0 1 arriving
-0 7 arriving
+0 2 arriving
 0 1 running
 1 1 running
-2 5 arriving
 2 1 running
+3 3 arriving
 3 1 running
 4 1 running
-5 9 arriving
 5 1 running
-6 3 arriving
 6 1 running
 7 4 arriving
 7 1 running
@@ -17,33 +15,31 @@ Simulation starting...
 9 1 running
 10 1 running
 11 1 running
-12 1 running
 12 1 finished
-13 7 running
-13 7 finished
-14 5 running
-14 5 finished
-15 9 running
-16 9 running
-17 9 running
-18 9 running
-18 9 finished
-19 3 running
-20 3 running
+12 2 running
+13 2 running
+14 2 running
+15 2 running
+16 2 running
+17 2 running
+18 2 running
+19 2 running
+20 2 running
+21 2 finished
 21 3 running
 22 3 running
 23 3 running
 24 3 running
 25 3 running
-25 3 finished
-26 4 running
+26 3 running
+27 3 finished
 27 4 running
 28 4 running
 29 4 running
 30 4 running
-30 4 finished
+31 4 finished
 
-Average waiting time: 21840.00
-Average response time: 11.17
-Average turnaround time: 15.33
+Average waiting time: 12.50
+Average response time: 12.50
+Average turnaround time: 20.25
 Average CPU usage: 100.00%
