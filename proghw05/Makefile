@@ -1,5 +1,11 @@
-CC = gcc
-CFLAGS = -Wall -Wextra
+# Author: Ryan McCormick
+# Date: 10/06/2024
+# Make file to compile all files for proghw05 
+
+CC=gcc
+PROGS=scheduler
+CFLAGS=-std=c99 -Wall -g
+LFLAGS=-lm
 
 SRCS = main.c scheduler.c my_queue.c
 OBJS = $(SRCS:.c=.o)
